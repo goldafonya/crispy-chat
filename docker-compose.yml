@@ -10,3 +10,26 @@ services:
       POSTGRES_DB: main
     ports:
       - 5432:5432
+  crispy-chat-api:
+    build:
+      context: ./crispy-chat-api
+    container_name: crispy-chat-api
+    environment:
+      CRISPY_CHAT_API_CHECK_UTL: http://crispy-chat-ca:8080/oauth/check_token
+      CRISPY_CHAT_API_CLIENT_ID: first-client
+      CRISPY_CHAT_API_CLIENT_SECRET: noonewilleverguess
+      CRISPY_CHAT_API_DB_URL: postgres-main:5432/main
+      CRISPY_CHAT_API_DB_USERNAME: dbuser
+      CRISPY_CHAT_API_DB_PASSWORD: dbpassword
+    ports:
+      - 8081:8081
+    depends_on:
+      - postgres-main
+      - crispy-chat-ca
+
+  crispy-chat-ca:
+    build:
+      context: ./crispy-chat-ca
+    container_name: crispy-chat-ca
+    ports:
+      - 8080:8080
