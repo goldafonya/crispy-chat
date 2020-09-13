@@ -1,0 +1,63 @@
+{
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "extends": [
+        "react-app"
+    ],
+    "rules": {
+        "indent": [
+            "error",
+            2
+        ],
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "jsx-quotes": [
+            "error",
+            "prefer-double"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "arrow-spacing": [
+            "error",
+            {
+                "before": true,
+                "after": true
+            }
+        ],
+        "comma-spacing": [
+            "error",
+            {
+                "before": false,
+                "after": true
+            }
+        ],
+        "space-infix-ops": "error",
+        "key-spacing": [
+            "error",
+            {
+                "beforeColon": false
+            }
+        ],
+        "keyword-spacing": [
+            "error",
+            {
+                "before": true
+            }
+        ],
+        "no-multi-spaces": "error",
+        "space-before-blocks": "error",
+        "no-var": "error",
+        "no-setter-return": "error",
+        "no-unreachable": "error",
+        "default-case": "error",
+        "no-dupe-args": "error",
+        "no-empty": "error",
+        "no-extra-semi": "error"
+        // "no-restricted-imports": ["error", { "patterns": ["@material-ui/core$"] }]
+    }
+}

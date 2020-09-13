@@ -1,0 +1,4 @@
+export enum PROFILE_ACTIONS {
+    INCREMENT = "INCREMENT",
+    DECREMENT = "DECREMENT"
+}
