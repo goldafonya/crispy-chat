@@ -3,19 +3,27 @@ import { IActions } from "../model/actions/IActions";
 import { IProfile } from "../model/store/IProfile";
 
 const profileStore: IProfile = {
-  count: 0
+  count: 0,
+  login: null
 };
 
-export const profileReducer = (store = profileStore, action: IActions) => {
+export const profileReducer = (store = profileStore, action: IActions): IProfile => {
 
   switch (action.type) {
+  case PROFILE_ACTIONS.SET_PROFILE:
+    return {
+      ...store,
+      login: action.payload
+    };
   case PROFILE_ACTIONS.INCREMENT:
     return {
-      count: store.count + 1
+      ...store,
+      count: store.count + 1,
     };
   case PROFILE_ACTIONS.DECREMENT:
     return {
-      count: store.count - 1
+      ...store,
+      count: store.count - 1,
     };
   default: {
     return store;

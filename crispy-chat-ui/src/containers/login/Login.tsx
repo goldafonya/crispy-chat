@@ -6,6 +6,8 @@ import { STYLE_COLOR } from "../../constants/STYLE_COLOR";
 import styled from "styled-components";
 import Grid from "@material-ui/core/Grid/Grid";
 import Button from "@material-ui/core/Button/Button";
+import { connect } from "react-redux";
+import { ProfileActions } from "../../actions/ProfileActions";
 
 const LoginWrapperDiv = styled.div`
     flex-grow: 1;
@@ -18,15 +20,20 @@ const LoginWrapperDiv = styled.div`
     flex-direction: column;
 `;
 
-export const Login: FC = () => {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
+interface ILoginProps {
+  auth: (login: string, password: string) => void;
+}
+
+const Login: FC<ILoginProps> = ({auth}) => {
+  const [login, setLogin] = useState("loginTest");
+  const [password, setPassword] = useState("passwordTest");
 
   return (
     <LoginWrapperDiv>
       <Paper
         style={{
-          width: "420px",
+          minWidth: "100%",
+          maxWidth: "420px",
           height: "300px",
           display: "flex",
           flexDirection: "column"
@@ -64,7 +71,7 @@ export const Login: FC = () => {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => console.log("onClick ", login, password)}
+              onClick={() => auth(login, password)}
               size="large"
             >
               Войти
@@ -75,3 +82,12 @@ export const Login: FC = () => {
     </LoginWrapperDiv>
   );
 };
+
+const LoginConnector = connect(
+  null,
+  {
+    auth: ProfileActions.auth
+  }
+)(Login);
+
+export { LoginConnector as Login };

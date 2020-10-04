@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.aafonin.crispychatac.entities.User;
 import ru.aafonin.crispychatac.repositories.UserRepository;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -42,5 +43,11 @@ public class UserController {
     @GetMapping("/user/getAll")
     public List<User> getAllUser() {
         return userRepository.findAll();
+    }
+
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @GetMapping("/user/getProfile")
+    public Principal getProfile(Principal principal) {
+        return principal;
     }
 }
