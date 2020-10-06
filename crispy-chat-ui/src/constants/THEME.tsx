@@ -10,6 +10,15 @@ const THEME = createMuiTheme({
       main: STYLE_COLOR.SECONDARY_COLOR
     }
   },
+  props: {
+    MuiTextField: {
+      inputProps: {
+        style: {
+          padding: "0 4px"
+        }
+      }
+    }
+  }
 });
 
 export { THEME };

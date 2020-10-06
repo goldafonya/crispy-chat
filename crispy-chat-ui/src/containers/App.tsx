@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from "react";
 import { Footer } from "../components/footer/Footer";
 import { Header } from "../components/header/Header";
-import { Main } from "../components/main/Main";
+import { Main } from "./main/Main";
 import styled from "styled-components";
 import { Login } from "./login/Login";
 import { connect } from "react-redux";
