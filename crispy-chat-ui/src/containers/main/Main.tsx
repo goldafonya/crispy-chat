@@ -50,7 +50,7 @@ export const Main: FC<{}> = () => {
     <MainWrapperDiv>
       <div style={{flexGrow: 1}}>
         <ul>
-          {messages.map((m, i) => <li key={i}>{m.text}</li>)}
+          {messages.map((m, i) => <ol key={i}>{`${m.time} ${m.author}: ${m.message}`}</ol>)}
         </ul>
       </div>
       <div>

@@ -1,3 +1,5 @@
 export interface IMessage {
-  text: string;
+  message: string;
+  author: string;
+  time: string;
 }
