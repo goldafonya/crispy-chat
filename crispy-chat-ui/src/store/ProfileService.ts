@@ -7,7 +7,7 @@ export class ProfileService {
     formData.append("username", login);
     formData.append("password", password);
 
-    const response: AxiosResponse = await http.post("/login", formData, {
+    const response: AxiosResponse = await http.post("/api/login", formData, {
       headers: {"Content-Type": "multipart/form-data"}
     });
 
@@ -15,13 +15,13 @@ export class ProfileService {
   };
 
   static logout = async (): Promise<boolean> => {
-    await axios.post("/logout");
+    await axios.post("/api/logout");
 
     return true;
   };
 
   static getProfile = async (): Promise<string> => {
-    const response: AxiosResponse<any> = await axios.get("/user/getProfile");
+    const response: AxiosResponse<any> = await axios.get("/api/user/getProfile");
 
     return response.data.name;
   };

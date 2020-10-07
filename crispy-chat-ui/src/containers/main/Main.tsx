@@ -9,6 +9,9 @@ import Circular from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
 import { ChatStatus } from "../../model/ChatStatus";
 import { ChatActions } from "../../actions/ChatActions";
+import SockJS from "sockjs-client";
+import Stomp, { Client } from "stompjs";
+
 
 const MainWrapperDiv = styled.main`
     flex-grow: 1;
@@ -18,6 +21,23 @@ const MainWrapperDiv = styled.main`
     display: flex;
     flex-direction: column;
 `;
+
+let socket;
+let stompClient: Client;
+
+socket = new SockJS("/api/chat");
+stompClient = Stomp.over(socket);
+stompClient.connect({}, function (frame) {
+  console.log("Connected: " + frame);
+  stompClient.subscribe("/topic/messages", function (messageOutput) {
+    console.log("/topic/messages", JSON.parse(messageOutput.body));
+  });
+});
+
+const send = () => {
+  stompClient.send("/app/chat", {},
+    JSON.stringify({"from": "from", "text": "text"}));
+};
 
 export const Main: FC<{}> = () => {
   const [value, setValue] = useState("");
@@ -29,6 +49,7 @@ export const Main: FC<{}> = () => {
 
   const onChange = useCallback((e) => setValue(e.target.value), []);
   const onSend = useCallback(() => {
+    send();
     if (!value) return;
     dispatch(ChatActions.sendMsg(value));
     setValue("");
