@@ -10,3 +10,27 @@ services:
       POSTGRES_DB: main
     ports:
       - 5432:5432
+
+  crispy-chat-ui:
+    container_name: crispy-chat-ui
+    build:
+      context: ./crispy-chat-ui
+      dockerfile: .Dockerfile
+    environment:
+      PROXY_URL: http://crispy-chat-ca:8080
+    ports:
+      - 3000:8080
+    depends_on:
+      - crispy-chat-ca
+
+  crispy-chat-ca:
+    container_name: crispy-chat-ca
+    build:
+      context: ./crispy-chat-ca
+      dockerfile: .Dockerfile
+    environment:
+      DB_URL: jdbc:postgresql://postgres-main:5432/main
+    ports:
+      - 8080:8080
+    depends_on:
+      - postgres-main
