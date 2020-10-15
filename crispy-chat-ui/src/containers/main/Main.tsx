@@ -1,14 +1,14 @@
 import React, { FC, useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { STYLE_COLOR } from "../../constants/STYLE_COLOR";
 import { STYLE_SIZE } from "../../constants/STYLE_SIZE";
-import { IStore } from "../../model/store/IStore";
 import TextField from "@material-ui/core/TextField";
 import Circular from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
 import { ChatStatus } from "../../model/ChatStatus";
 import { ChatActions } from "../../actions/ChatActions";
+import { useTypedSelector } from "../../store/store";
 
 const MainWrapperDiv = styled.main`
     flex-grow: 1;
@@ -24,8 +24,8 @@ export const Main: FC<{}> = () => {
 
   const dispatch = useDispatch();
 
-  const messages = useSelector((store: IStore) => store.chat.messages);
-  const status = useSelector((store: IStore) => store.chat.status);
+  const messages = useTypedSelector((store) => store.chat.messages);
+  const status = useTypedSelector((store) => store.chat.status);
 
   const onChange = useCallback((e) => setValue(e.target.value), []);
   const onSend = useCallback(() => {

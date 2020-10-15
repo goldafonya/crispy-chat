@@ -1,18 +1,14 @@
-import { Dispatch } from "react";
-import { IActions } from "../model/actions/IActions";
-import { CHAT_ACTIONS } from "../constants/CHAT_ACTIONS";
 import { ChatStatus } from "../model/ChatStatus";
 import { chatService } from "../services/ChatService";
 import { Message } from "stompjs";
 import { IMessage } from "../model/IMessage";
+import { chatActions } from "../reducers/chatReducer";
+import { Dispatch } from "redux";
 
 export class ChatActions {
-  static connection = () => async (dispatch: Dispatch<IActions>) => {
+  static connection = () => async (dispatch: Dispatch) => {
 
-    dispatch({
-      type: CHAT_ACTIONS.CHANGE_STATUS_CHAT,
-      payload: ChatStatus.CONNECTION
-    });
+    dispatch(chatActions.changeStatusChat(ChatStatus.CONNECTION));
 
     const msgsPromise = chatService.history();
 
@@ -20,26 +16,17 @@ export class ChatActions {
       async () => {
         const msgs: IMessage[] = await msgsPromise;
 
-        dispatch({
-          type: CHAT_ACTIONS.RECEIVE_MESSAGE,
-          payload: msgs
-        });
+        dispatch(chatActions.receiveMessage(msgs));
 
-        dispatch({
-          type: CHAT_ACTIONS.CHANGE_STATUS_CHAT,
-          payload: ChatStatus.OPEN
-        });
+        dispatch(chatActions.changeStatusChat(ChatStatus.OPEN));
       },
       (msg: Message) => {
-        dispatch({
-          type: CHAT_ACTIONS.RECEIVE_MESSAGE,
-          payload: [JSON.parse(msg.body) as IMessage]
-        });
-      }
+        dispatch(chatActions.receiveMessage([JSON.parse(msg.body) as IMessage]));
+      },
     );
   };
 
-  static sendMsg = (msg: string) => (dispatch: Dispatch<IActions>) => {
+  static sendMsg = (msg: string) => (dispatch: Dispatch) => {
     chatService.send(msg);
   };
 }

@@ -4,10 +4,9 @@ import { Header } from "../components/header/Header";
 import { Main } from "./main/Main";
 import styled from "styled-components";
 import { Login } from "./login/Login";
-import { connect } from "react-redux";
-import { IStore } from "../model/store/IStore";
-import { Nullable } from "../model/utils/Nullable";
+import { useDispatch } from "react-redux";
 import { GlobalActions } from "../actions/GlobalActions";
+import { useTypedSelector } from "../store/store";
 
 const AppWrapperDiv = styled.div`
     display: flex;
@@ -16,15 +15,12 @@ const AppWrapperDiv = styled.div`
     align-items: center;
 `;
 
-interface IAppProps {
-  auth: Nullable<boolean>;
-  init: () => void;
-}
-
-const App: FC<IAppProps> = ({auth, init}) => {
+export const App: FC = () => {
+  const auth = useTypedSelector((store) => store.global.auth);
+  const dispatch = useDispatch();
   useEffect(() => {
-    init();
-  }, [init]);
+    dispatch(GlobalActions.init());
+  }, [GlobalActions.init]);
   if (auth === null) return null;
   const contentJSX = auth ? <Main/> : <Login/>;
   return (
@@ -35,12 +31,3 @@ const App: FC<IAppProps> = ({auth, init}) => {
     </AppWrapperDiv>
   );
 };
-
-export default connect(
-  (store: IStore) => ({
-    auth: store.global.auth,
-  }),
-  {
-    init: GlobalActions.init
-  }
-)(App);

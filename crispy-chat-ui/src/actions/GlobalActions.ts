@@ -1,28 +1,21 @@
 import { ProfileService } from "../store/ProfileService";
-import { IActions } from "../model/actions/IActions";
-import { Dispatch } from "react";
-import { GLOBAL_ACTIONS } from "../constants/GLOBAL_ACTIONS";
+import { globalAction } from "../reducers/globalReducer";
+import { Dispatch } from "redux";
 
 class GlobalActions {
-  init = () => async (dispatch: Dispatch<IActions>) => {
+  init = () => async (dispatch: Dispatch) => {
     try {
       const username = await ProfileService.getProfile();
 
-      dispatch({
-        type: GLOBAL_ACTIONS.INIT,
-      });
+      dispatch(globalAction.init());
     } catch (e) {
-      dispatch({
-        type: GLOBAL_ACTIONS.LOGOUT
-      });
+      dispatch(globalAction.logout());
     }
   };
 
-  static logout = () => async (dispatch: Dispatch<IActions>) => {
+  static logout = () => async (dispatch: Dispatch) => {
     await ProfileService.logout();
-    dispatch({
-      type: GLOBAL_ACTIONS.LOGOUT
-    });
+    dispatch(globalAction.logout());
   };
 }
 

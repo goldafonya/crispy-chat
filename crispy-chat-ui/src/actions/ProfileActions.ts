@@ -1,11 +1,10 @@
-import { Dispatch } from "react";
-import { IActions } from "../model/actions/IActions";
 import { ProfileService } from "../store/ProfileService";
 import { GlobalActions } from "./GlobalActions";
+import { Dispatch } from "redux";
 
 export class ProfileActions {
 
-  static auth = (login: string, password: string) => async (dispatch: Dispatch<IActions>) => {
+  static auth = (login: string, password: string) => async (dispatch: Dispatch) => {
 
     const response: string = await ProfileService.login(login, password);
 

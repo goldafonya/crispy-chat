@@ -1,32 +1,27 @@
-import { PROFILE_ACTIONS } from "../constants/PROFILE_ACTIONS";
-import { IActions } from "../model/actions/IActions";
 import { IProfile } from "../model/store/IProfile";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const profileStore: IProfile = {
-  count: 0,
   login: null
 };
 
-export const profileReducer = (store = profileStore, action: IActions): IProfile => {
+const profileSlice = createSlice({
+  name: "profile",
+  initialState: profileStore,
+  reducers: {
+    setProfile(store, action: PayloadAction<IProfile["login"]>) {
+      return {
+        ...store,
+        login: action.payload
+      };
+    }
+  }
+});
 
-  switch (action.type) {
-  case PROFILE_ACTIONS.SET_PROFILE:
-    return {
-      ...store,
-      login: action.payload
-    };
-  case PROFILE_ACTIONS.INCREMENT:
-    return {
-      ...store,
-      count: store.count + 1,
-    };
-  case PROFILE_ACTIONS.DECREMENT:
-    return {
-      ...store,
-      count: store.count - 1,
-    };
-  default: {
-    return store;
-  }
-  }
+const {actions, reducer} = profileSlice;
+
+export {
+  actions as profileAction,
+  reducer as profileReducer,
+  profileSlice
 };

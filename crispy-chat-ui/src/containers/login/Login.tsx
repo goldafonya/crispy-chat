@@ -32,11 +32,10 @@ const Login: FC<ILoginProps> = ({auth}) => {
     <LoginWrapperDiv>
       <Paper
         style={{
-          minWidth: "100%",
-          maxWidth: "420px",
+          width: "420px",
           height: "300px",
           display: "flex",
-          flexDirection: "column"
+          flexDirection: "column",
         }}
       >
         <Grid

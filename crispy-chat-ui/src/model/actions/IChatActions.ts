@@ -1,14 +1,13 @@
-import { CHAT_ACTIONS } from "../../constants/CHAT_ACTIONS";
 import { IMessage } from "../IMessage";
 import { ChatStatus } from "../ChatStatus";
 
-interface IChatActionsReceiveMessage {
-  type: CHAT_ACTIONS.RECEIVE_MESSAGE,
+export interface IChatActionsReceiveMessage {
+  type: "RECEIVE_MESSAGE",
   payload: Array<IMessage>
 }
 
-interface IChatActionsChangeStatus {
-  type: CHAT_ACTIONS.CHANGE_STATUS_CHAT,
+export interface IChatActionsChangeStatus {
+  type: "CHANGE_STATUS_CHAT",
   payload: ChatStatus
 }
 

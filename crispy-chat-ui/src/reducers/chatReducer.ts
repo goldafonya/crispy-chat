@@ -1,28 +1,34 @@
-import { IActions } from "../model/actions/IActions";
 import { IChat } from "../model/store/IChat";
 import { ChatStatus } from "../model/ChatStatus";
-import { CHAT_ACTIONS } from "../constants/CHAT_ACTIONS";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IMessage } from "../model/IMessage";
 
 const chatStore: IChat = {
   status: ChatStatus.NULL,
   messages: []
 };
 
-export const chatReducer = (store = chatStore, action: IActions): IChat => {
-
-  switch (action.type) {
-  case CHAT_ACTIONS.CHANGE_STATUS_CHAT:
-    return {
-      ...store,
-      status: action.payload
-    };
-  case CHAT_ACTIONS.RECEIVE_MESSAGE:
-    return {
-      ...store,
-      messages: [...store.messages, ...action.payload],
-    };
-  default: {
-    return store;
-  }
-  }
+const chatSlice = createSlice({
+  name: "chat",
+  initialState: chatStore,
+  reducers: {
+    changeStatusChat(store, action: PayloadAction<ChatStatus>) {
+      return {
+        ...store,
+        status: action.payload
+      };
+    },
+    receiveMessage(store, action: PayloadAction<Array<IMessage>>) {
+      return {
+        ...store,
+        messages: [...store.messages, ...action.payload],
+      };
+    }
+  },
+});
+const {actions, reducer} = chatSlice;
+export {
+  chatSlice,
+  actions as chatActions,
+  reducer as chatReducer
 };
