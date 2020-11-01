@@ -1,5 +1,6 @@
 package ru.aafonin.crispychatac.security;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,6 +10,7 @@ import ru.aafonin.crispychatac.entities.User;
 import ru.aafonin.crispychatac.repositories.UserRepository;
 
 @Service
+@Slf4j
 public class UserDetailsServiceCustom implements UserDetailsService {
 
     @Autowired

@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { http } from "../services/http";
+import { URLs } from "../constants/URLs";
 
 export class ProfileService {
   static login = async (login: string, password: string) => {
@@ -7,21 +8,21 @@ export class ProfileService {
     formData.append("username", login);
     formData.append("password", password);
 
-    const response: AxiosResponse = await http.post("/api/login", formData, {
-      headers: {"Content-Type": "multipart/form-data"}
+    const response: AxiosResponse = await http.post(URLs.login, formData, {
+      headers: {"Content-Type": "multipart/form-data"},
     });
 
     return response.data;
   };
 
   static logout = async (): Promise<boolean> => {
-    await axios.post("/api/logout");
+    await axios.post(URLs.logout);
 
     return true;
   };
 
   static getProfile = async (): Promise<string> => {
-    const response: AxiosResponse<any> = await axios.get("/api/user/getProfile");
+    const response: AxiosResponse = await axios.get(URLs.getProfile);
 
     return response.data.name;
   };

@@ -24,9 +24,9 @@ public class ChatController {
         this.messageRepository = messageRepository;
     }
 
-    @MessageMapping("/chat")
+    @MessageMapping("/channel/chat")
     @SendTo("/topic/messages")
-    public Message send(Principal principal, MessageDto messageDto) throws Exception {
+    public Message send(Principal principal, MessageDto messageDto) {
         String time = new SimpleDateFormat("HH:mm").format(new Date());
         Message msg = new Message(principal.getName(), messageDto.getMessage(), time);
         return messageRepository.save(msg);

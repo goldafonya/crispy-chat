@@ -1,34 +1,83 @@
-import React, { FC } from "react";
-import styled from "styled-components";
+import React, { FC, Fragment, useCallback, useState } from "react";
 import { STYLE_SIZE } from "../../constants/STYLE_SIZE";
 import { STYLE_COLOR } from "../../constants/STYLE_COLOR";
 import Typography from "@material-ui/core/Typography/Typography";
+import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import { makeStyles } from "@material-ui/core/styles";
 
-const HeaderWrapperDiv = styled.div`
-    width: 100%;
-    height: 64px;
-    display: flex;
-    justify-content: center;
-    background-color: ${STYLE_COLOR.PRIMARY_COLOR};
-`;
+const useStyles = makeStyles(() => ({
+  wrapper: {
+    width: "100%",
+    height: "64px",
+    display: "flex",
+    "justify-content": "center",
+    "background-color": STYLE_COLOR.PRIMARY_COLOR,
+  },
+  header: {
+    "max-width": STYLE_SIZE.MAX_CONTENT_WIDTH,
+    display: "flex",
+    "flex-grow": 1,
+    "justify-content": "flex-start",
+  },
+}));
 
-const HeaderDiv = styled.div`
-    max-width: ${STYLE_SIZE.MAX_CONTENT_WIDTH};
-`;
-
-export const Header: FC<{}> = () => {
+export const Header: FC = () => {
+  const classes = useStyles();
+  const [isShowDrawer, setIsShowDrawer] = useState(false);
+  const toggleDrawer = useCallback(() => {
+    setIsShowDrawer(val => !val);
+  }, []);
+  const selectItem = useCallback(() => {
+    toggleDrawer();
+  }, [toggleDrawer]);
 
   return (
-    <HeaderWrapperDiv>
-      <HeaderDiv>
+    <div className={classes.wrapper}>
+      <div className={classes.header}>
+        <IconButton
+          aria-label="menu"
+          onClick={toggleDrawer}
+          size={"medium"}
+        >
+          <MenuIcon style={{color: "white"}}/>
+        </IconButton>
         <Typography
           variant="h3"
           component="h3"
-          style={{ color: "white" }}
+          style={{color: "white"}}
         >
           Header
         </Typography>
-      </HeaderDiv>
-    </HeaderWrapperDiv>
+      </div>
+      <Drawer
+        anchor={"left"}
+        open={isShowDrawer}
+        onClose={toggleDrawer}
+      >
+        <List
+          style={{minWidth: "140px"}}
+        >
+          {
+            [
+              "Menu 1",
+              "Menu 2",
+              "Menu 3",
+            ].map((text, index, array) => (
+              <Fragment key={index}>
+                <ListItem button key={text} onClick={selectItem}>
+                  <ListItemText primary={text}/>
+                </ListItem>
+                {array.length - 1 !== index && <Divider light/>}
+              </Fragment>
+            ))}
+        </List>
+      </Drawer>
+    </div>
   );
 };

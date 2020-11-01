@@ -5,7 +5,7 @@ import { Dispatch } from "redux";
 class GlobalActions {
   init = () => async (dispatch: Dispatch) => {
     try {
-      const username = await ProfileService.getProfile();
+      await ProfileService.getProfile();
 
       dispatch(globalAction.init());
     } catch (e) {
@@ -13,9 +13,18 @@ class GlobalActions {
     }
   };
 
-  static logout = () => async (dispatch: Dispatch) => {
+  logout = () => async (dispatch: Dispatch) => {
     await ProfileService.logout();
     dispatch(globalAction.logout());
+  };
+
+  auth = (login: string, password: string) => async (dispatch: Dispatch) => {
+
+    const response: string = await ProfileService.login(login, password);
+
+    console.log("response", response);
+
+    this.init()(dispatch);
   };
 }
 
