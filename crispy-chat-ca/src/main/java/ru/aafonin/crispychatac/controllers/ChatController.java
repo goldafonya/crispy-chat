@@ -24,7 +24,7 @@ public class ChatController {
         this.messageRepository = messageRepository;
     }
 
-    @MessageMapping("/channel/chat")
+    @MessageMapping("/chat")
     @SendTo("/topic/messages")
     public Message send(Principal principal, MessageDto messageDto) {
         String time = new SimpleDateFormat("HH:mm").format(new Date());
