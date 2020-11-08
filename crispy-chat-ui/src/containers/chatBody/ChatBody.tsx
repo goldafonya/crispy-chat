@@ -25,6 +25,9 @@ const useStyles = makeStyles(() => ({
     "flex-direction": "column",
     overflow: "auto",
   },
+  loader: {
+    margin: "0 auto",
+  },
 }));
 
 const MessageItem: FC<{ text: string; isLast: boolean; }> = ({text, isLast}) => {
@@ -114,7 +117,7 @@ export const Chat = () => {
   if ([ChatStatus.NULL, ChatStatus.CONNECTION].includes(status)) {
     return (
       <div className={classes.wrapper}>
-        <Circular/>
+        <Circular className={classes.loader} size={80}/>
       </div>
     );
   } else {
