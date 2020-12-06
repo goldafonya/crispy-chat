@@ -21,7 +21,7 @@ class ChatService {
   };
 
   send = (msg: string) => {
-    this.stompClient!.send("/channel/chat", {},
+    this.stompClient!.send("/channel/chat/general", {},
       JSON.stringify({"message": msg}));
   };
 

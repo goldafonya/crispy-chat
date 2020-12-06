@@ -27,14 +27,22 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const list = [
+  "Menu 1",
+  "Menu 2",
+  "Menu 3",
+];
+
 export const Header: FC = () => {
   const classes = useStyles();
   const [isShowDrawer, setIsShowDrawer] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(list[0]);
   const toggleDrawer = useCallback(() => {
     setIsShowDrawer(val => !val);
   }, []);
-  const selectItem = useCallback(() => {
+  const selectItem = useCallback((value) => {
     toggleDrawer();
+    setSelectedItem(value);
   }, [toggleDrawer]);
 
   return (
@@ -52,7 +60,7 @@ export const Header: FC = () => {
           component="h3"
           style={{color: "white"}}
         >
-          Header
+          {`Chat:${selectedItem}`}
         </Typography>
       </div>
       <Drawer
@@ -64,14 +72,10 @@ export const Header: FC = () => {
           style={{minWidth: "140px"}}
         >
           {
-            [
-              "Menu 1",
-              "Menu 2",
-              "Menu 3",
-            ].map((text, index, array) => (
+            list.map((text, index, array) => (
               <Fragment key={index}>
-                <ListItem button key={text} onClick={selectItem}>
-                  <ListItemText primary={text}/>
+                <ListItem button key={text} onClick={() => selectItem(text)}>
+                  <ListItemText primary={text} style={{color: selectedItem === text ? "crimson" : ""}}/>
                 </ListItem>
                 {array.length - 1 !== index && <Divider light/>}
               </Fragment>
