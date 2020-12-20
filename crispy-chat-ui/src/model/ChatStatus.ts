@@ -1,6 +1,6 @@
 export enum ChatStatus {
-  NULL,
-  CONNECTION,
-  OPEN,
-  CLOSED
+  NULL = "NULL",
+  CONNECTION = "CONNECTION",
+  OPEN = "OPEN",
+  CLOSED = "CLOSED"
 }

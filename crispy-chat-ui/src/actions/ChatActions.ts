@@ -23,6 +23,10 @@ export class ChatActions {
       (msg: Message) => {
         dispatch(chatActions.receiveMessage([JSON.parse(msg.body) as IMessage]));
       },
+      () => {
+        console.log("onDisconnect");
+        dispatch(chatActions.changeStatusChat(ChatStatus.CLOSED));
+      },
     );
   };
 

@@ -14,6 +14,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import { ListItem } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography/Typography";
 
 const useStyles = makeStyles(() => ({
   wrapper: {
@@ -120,7 +121,19 @@ export const Chat = () => {
         <Circular className={classes.loader} size={80}/>
       </div>
     );
-  } else {
-    return (<ChatBody/>);
   }
+  if ([ChatStatus.CLOSED].includes(status)) {
+    return (
+      <div className={classes.wrapper}>
+        <Typography
+          variant="h3"
+          component="h3"
+        >
+          CONNECTION ERROR
+        </Typography>
+      </div>
+    );
+  }
+
+  return (<ChatBody/>);
 };

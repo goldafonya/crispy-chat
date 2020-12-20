@@ -5,6 +5,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,28 +25,25 @@ import java.util.List;
 @Slf4j
 public class ChatController {
     MessageRepository messageRepository;
+    private SimpMessagingTemplate simpMessagingTemplate;
 
-    public ChatController(MessageRepository messageRepository) {
+    public ChatController(MessageRepository messageRepository, SimpMessagingTemplate simpMessagingTemplate) {
+
         this.messageRepository = messageRepository;
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
     @MessageMapping("/chat/{channelId}")
     @SendTo("/topic/messages")
-    public Message subscribeChatChannel(@DestinationVariable String channelId, Principal principal, MessageDto messageDto) {
+    public void subscribeChatChannel(@DestinationVariable String channelId, Principal principal, MessageDto messageDto) {
         log.info("channelId: " + channelId);
 
         String time = new SimpleDateFormat("HH:mm").format(new Date());
         Message msg = new Message(principal.getName(), messageDto.getMessage(), time);
-        return messageRepository.save(msg);
+        msg = messageRepository.save(msg);
+//        simpMessagingTemplate.convertAndSendToUser(
+        simpMessagingTemplate.convertAndSend("/topic/messages/" + channelId, msg);
     }
-
-//    @MessageMapping("/chat")
-//    @SendTo("/topic/messages")
-//    public Message send(Principal principal, MessageDto messageDto) {
-//        String time = new SimpleDateFormat("HH:mm").format(new Date());
-//        Message msg = new Message(principal.getName(), messageDto.getMessage(), time);
-//        return messageRepository.save(msg);
-//    }
 
     @GetMapping("/history")
     public List<Message> historyList() {

@@ -8,16 +8,26 @@ class ChatService {
   private socket: Nullable<WebSocket> = null;
   stompClient: Nullable<Client> = null;
 
-  connect = (sucCb?: () => void, subCb?: (msg: Message) => void): void => {
+  connect = (onConnect: () => void, onMessage: (msg: Message) => void, onDisconnect: () => void): void => {
     this.socket = new SockJS(URLs.websocket);
-    this.stompClient = Stomp.over(this.socket);
+    const stompClient = Stomp.over(this.socket);
+    this.stompClient = stompClient;
+    stompClient.heartbeat.outgoing = 20;
+    stompClient.heartbeat.incoming = 10;
 
-    this.stompClient.connect({}, (frame) => {
-      sucCb && sucCb();
-      this.stompClient!.subscribe("/topic/messages", (messageOutput) => {
-        subCb && subCb(messageOutput);
-      });
-    });
+    stompClient.connect({},
+      (frame) => {
+        console.log("connect, frame", frame);
+        onConnect && onConnect();
+        stompClient.subscribe("/topic/messages/general", (messageOutput) => {
+          onMessage && onMessage(messageOutput);
+        });
+      },
+      (frame) => {
+        console.log("disconnect, frame", frame);
+        onDisconnect();
+      },
+    );
   };
 
   send = (msg: string) => {

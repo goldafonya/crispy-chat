@@ -3,6 +3,7 @@ import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import BottomNavigationMU from "@material-ui/core/BottomNavigation";
 import { navigate } from "@reach/router";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useTypedSelector } from "../../store/store";
 import { GlobalActions } from "../../actions/GlobalActions";
 import { useDispatch } from "react-redux";
@@ -34,7 +35,7 @@ export const BottomNavigation: FC = () => {
           <BottomNavigationAction
             onClick={onLogout}
             label="Logout"
-            icon={<FavoriteIcon/>}
+            icon={<ExitToAppIcon/>}
           />
         )}
       </BottomNavigationMU>
